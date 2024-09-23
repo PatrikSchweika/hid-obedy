@@ -10,8 +10,6 @@ export const Layout = () => {
   const [users, setUsers] = useState<User[]>([])
   // const [records, setRecords] = useState<LunchRecord[]>([])
 
-  console.log(users)
-
   const fetchUsers = async () => {
     await getDocs(collection(FIREBASE_DB, 'users')).then((querySnapshot) => {
       const newData = querySnapshot.docs.map(
