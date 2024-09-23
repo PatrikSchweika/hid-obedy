@@ -1,4 +1,3 @@
-import './App.css'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { Layout } from './Layout.tsx'

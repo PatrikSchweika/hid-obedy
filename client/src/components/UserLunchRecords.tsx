@@ -1,4 +1,3 @@
-import { useLunchRecords } from '../queries/use-lunch-records.ts'
 import {
   Table,
   TableBody,
@@ -7,13 +6,33 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material'
+import { User } from '../models/user.ts'
+import { LunchRecord } from '../models/lunch-record.ts'
+import { useMemo } from 'react'
 
 interface UserLunchRecordsProps {
   userId: string
+  users: User[]
+  lunchRecords: LunchRecord[]
 }
 
-export const UserLunchRecords = ({ userId }: UserLunchRecordsProps) => {
-  const lunchRecords = useLunchRecords(userId)
+export const UserLunchRecords = ({
+  userId,
+  users,
+  lunchRecords,
+}: UserLunchRecordsProps) => {
+  const userLunchRecords = useMemo(() => {
+    return lunchRecords
+      .filter((record) => {
+        return (
+          record.payerId === userId || record.selectedUserIds.includes(userId)
+        )
+      })
+      .map((record) => ({
+        ...record,
+        score: record.payerId === userId ? record.selectedUserIds.length : -1,
+      }))
+  }, [lunchRecords, userId])
 
   return (
     <TableContainer>
@@ -24,6 +43,9 @@ export const UserLunchRecords = ({ userId }: UserLunchRecordsProps) => {
               <b>Datum</b>
             </TableCell>
             <TableCell>
+              <b>Platil</b>
+            </TableCell>
+            <TableCell>
               <b>Popis</b>
             </TableCell>
             <TableCell align="right">
@@ -32,9 +54,12 @@ export const UserLunchRecords = ({ userId }: UserLunchRecordsProps) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {lunchRecords.map(({ date, description, score }, i) => (
+          {userLunchRecords.map(({ date, description, score, payerId }, i) => (
             <TableRow key={i}>
               <TableCell>{date.format('DD.MM.YYYY')}</TableCell>
+              <TableCell>
+                {users.find((user) => user.id === payerId)?.name}
+              </TableCell>
               <TableCell>{description}</TableCell>
               <TableCell align="right">
                 <b>{score}</b>

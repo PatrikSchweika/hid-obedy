@@ -31,7 +31,7 @@ export const UserTable = ({ users, onUserClicked }: UserTableProps) => {
           {users.map(({ id, name, score }, i) => (
             <TableRow key={i}>
               <TableCell onClick={() => onUserClicked(id)}>
-                <a href="#">{name}</a>
+                <a style={{ cursor: 'pointer' }}>{name}</a>
               </TableCell>
               <TableCell align="right">
                 <b>{score}</b>
