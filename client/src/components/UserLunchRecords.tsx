@@ -1,3 +1,4 @@
+import { useLunchRecords } from '../queries/use-lunch-records.ts'
 import {
   Table,
   TableBody,
@@ -6,21 +7,24 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material'
-import { User } from '../models/user.ts'
 
-interface UserTableProps {
-  users: User[]
-  onUserClicked: (userId: string) => void
+interface UserLunchRecordsProps {
+  userId: string
 }
 
-export const UserTable = ({ users, onUserClicked }: UserTableProps) => {
+export const UserLunchRecords = ({ userId }: UserLunchRecordsProps) => {
+  const lunchRecords = useLunchRecords(userId)
+
   return (
     <TableContainer>
-      <Table sx={{ minWidth: 400 }} size="small">
+      <Table sx={{ minWidth: 400 }} size="medium">
         <TableHead>
           <TableRow>
             <TableCell>
-              <b>Jméno</b>
+              <b>Datum</b>
+            </TableCell>
+            <TableCell>
+              <b>Popis</b>
             </TableCell>
             <TableCell align="right">
               <b>Skóre</b>
@@ -28,11 +32,10 @@ export const UserTable = ({ users, onUserClicked }: UserTableProps) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {users.map(({ id, name, score }, i) => (
+          {lunchRecords.map(({ date, description, score }, i) => (
             <TableRow key={i}>
-              <TableCell onClick={() => onUserClicked(id)}>
-                <a href="#">{name}</a>
-              </TableCell>
+              <TableCell>{date.format('DD.MM.YYYY')}</TableCell>
+              <TableCell>{description}</TableCell>
               <TableCell align="right">
                 <b>{score}</b>
               </TableCell>
