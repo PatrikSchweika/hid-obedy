@@ -20,12 +20,19 @@ import { LunchRecord } from '../models/record.ts'
 
 interface AddLunchProps {
   users: User[]
-  onAddLunch: (data: LunchRecord) => void
+  onAddLunch: (data: AddLunchFormData) => void
+}
+
+export interface AddLunchFormData {
+  date: Dayjs
+  description: string
+  payerId: string
+  selectedUserIds: string[]
 }
 
 export const AddLunch = ({ users, onAddLunch }: AddLunchProps) => {
-  const [selectedUserIds, setSelectedUserIds] = useState<number[]>([])
-  const [payerId, setPayerId] = useState<number | null>(null)
+  const [selectedUserIds, setSelectedUserIds] = useState<string[]>([])
+  const [payerId, setPayerId] = useState<string | null>(null)
   const [description, setDescription] = useState('')
   const [date, setDate] = useState<Dayjs | null>(dayjs())
 
@@ -72,8 +79,12 @@ export const AddLunch = ({ users, onAddLunch }: AddLunchProps) => {
       date,
     }
 
-    onAddLunch(lunchFormData)
+    setDate(dayjs())
+    setDescription('')
     setSelectedUserIds([])
+    setPayerId(null)
+
+    onAddLunch(lunchFormData)
   }, [
     selectedUserIds,
     payerId,
@@ -81,6 +92,9 @@ export const AddLunch = ({ users, onAddLunch }: AddLunchProps) => {
     onAddLunch,
     date,
     description,
+    setDate,
+    setDescription,
+    setPayerId,
   ])
 
   return (

@@ -19,8 +19,12 @@ export const UserTable = ({ users }: UserTableProps) => {
       <Table sx={{ minWidth: 400 }} size="small">
         <TableHead>
           <TableRow>
-            <TableCell>Jméno</TableCell>
-            <TableCell align="right">Skóre</TableCell>
+            <TableCell>
+              <b>Jméno</b>
+            </TableCell>
+            <TableCell align="right">
+              <b>Skóre</b>
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

@@ -15,7 +15,6 @@
     "@emotion/styled": "^11.13.0",
     "@mui/material": "^6.1.1",
     "@mui/x-date-pickers": "^7.18.0",
-    "@react-firebase/database": "^0.3.11",
     "dayjs": "^1.11.13",
     "firebase": "^10.13.2",
     "react": "^18.3.1",
