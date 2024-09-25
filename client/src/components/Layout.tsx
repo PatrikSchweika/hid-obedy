@@ -44,7 +44,6 @@ export const Layout = () => {
   return (
     <>
       <AppBar position="static">
-        {/*<img src={HIDIcon} />*/}
         <Toolbar>
           <Typography variant={'h4'}>
             <b>HID obědy 🍔</b>
@@ -81,17 +80,10 @@ export const Layout = () => {
 const Container = styled('div')`
   display: flex;
   flex-direction: row;
-
   align-items: center;
   justify-content: center;
-
-  height: 98vh;
-
-  //display: flex;
-
-  //width: 100%;
-  //justify-content: center;
   gap: 200px;
+  padding-top: 80px;
 `
 
 const StyledPaper = styled(Paper)`
