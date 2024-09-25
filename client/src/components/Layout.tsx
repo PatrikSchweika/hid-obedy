@@ -1,6 +1,13 @@
 import { UserTable } from './UserTable.tsx'
 import { AddLunch } from './AddLunch.tsx'
-import { Dialog, Paper, styled } from '@mui/material'
+import {
+  AppBar,
+  Dialog,
+  Paper,
+  styled,
+  Toolbar,
+  Typography,
+} from '@mui/material'
 import { useUsers } from '../queries/use-users.ts'
 import { useAddLunchRecord } from '../queries/use-add-lunch-record.ts'
 import { useCallback, useState } from 'react'
@@ -22,25 +29,39 @@ export const Layout = () => {
   }, [])
 
   return (
-    <Container>
-      <Dialog fullWidth open={showDialog} onClose={() => setShowDialog(false)}>
-        {selectedUserId && (
-          <UserLunchRecords
-            users={users}
-            lunchRecords={lunchRecords}
-            userId={selectedUserId}
-          />
-        )}
-      </Dialog>
+    <>
+      <AppBar position="static">
+        {/*<img src={HIDIcon} />*/}
+        <Toolbar>
+          <Typography variant={'h4'}>
+            <b>HID obědy 🍔</b>
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <Container>
+        <Dialog
+          fullWidth
+          open={showDialog}
+          onClose={() => setShowDialog(false)}
+        >
+          {selectedUserId && (
+            <UserLunchRecords
+              users={users}
+              lunchRecords={lunchRecords}
+              userId={selectedUserId}
+            />
+          )}
+        </Dialog>
 
-      <StyledPaper>
-        <UserTable users={users} onUserClicked={handleUserClicked} />
-      </StyledPaper>
+        <StyledPaper>
+          <UserTable users={users} onUserClicked={handleUserClicked} />
+        </StyledPaper>
 
-      <StyledPaper sx={{ padding: 5 }}>
-        <AddLunch users={users} onAddLunch={addLunchRecord} />
-      </StyledPaper>
-    </Container>
+        <StyledPaper sx={{ padding: 5 }}>
+          <AddLunch users={users} onAddLunch={addLunchRecord} />
+        </StyledPaper>
+      </Container>
+    </>
   )
 }
 
