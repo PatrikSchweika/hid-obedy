@@ -145,7 +145,9 @@ export const AddLunch = ({ users, onAddLunch }: AddLunchProps) => {
         onChange={(_, value) =>
           value && setSelectedUserIds([...selectedUserIds, value.id])
         }
-        renderInput={(params) => <TextField {...params} label="Přidej strávníka" />}
+        renderInput={(params) => (
+          <TextField {...params} label="Přidej strávníka" />
+        )}
       />
       <List dense sx={{ maxHeight: 500, overflow: 'auto' }}>
         {users
