@@ -37,10 +37,13 @@ export const Layout = () => {
     [addLunchRecord, enqueueSnackbar],
   )
 
-  const handleUserClicked = useCallback((userId: string) => {
-    setShowDialog(true)
-    setSelectedUserId(userId)
-  }, [])
+  const handleUserClicked = useCallback(
+    (userId: string) => {
+      setShowDialog(true)
+      setSelectedUserId(userId)
+    },
+    [setShowDialog, setSelectedUserId],
+  )
 
   return (
     <>
