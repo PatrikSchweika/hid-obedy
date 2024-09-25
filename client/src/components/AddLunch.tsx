@@ -99,7 +99,7 @@ export const AddLunch = ({ users, onAddLunch }: AddLunchProps) => {
   ])
 
   return (
-    <Stack spacing={2}>
+    <StyledStack spacing={2}>
       <Typography variant={'h5'}>Přidej oběd</Typography>
       <DatePicker
         label="Datum"
@@ -132,33 +132,47 @@ export const AddLunch = ({ users, onAddLunch }: AddLunchProps) => {
       {showErrors && selectedUserIds.length === 0 ? (
         <Error>Vyber strávniky</Error>
       ) : (
-        <Typography>Strávníci</Typography>
+        <Typography>Strávníci: {selectedUserIds.length}</Typography>
       )}
+      <Autocomplete
+        disablePortal
+        getOptionLabel={(option) => option.name}
+        getOptionKey={(option) => option.id}
+        options={users.filter(
+          (user) => user.id !== payerId && !selectedUserIds.includes(user.id),
+        )}
+        onChange={(_, value) =>
+          value && setSelectedUserIds([...selectedUserIds, value.id])
+        }
+        renderInput={(params) => <TextField {...params} label="Strávník" />}
+      />
       <List dense sx={{ maxHeight: 500, overflow: 'auto' }}>
         {users
           .filter((user) => user.id !== payerId)
-          .map((user, i) => {
-            return (
-              <ListItemButton
-                key={i}
-                onClick={() => handleCheckUser(user)}
-                disabled={payerId === null}
-              >
-                <ListItemIcon>
-                  <Checkbox checked={selectedUserIds.includes(user.id)} />
-                </ListItemIcon>
-                <ListItemText primary={user.name} />
-              </ListItemButton>
-            )
-          })}
+          .map((user, i) => (
+            <ListItemButton
+              key={i}
+              onClick={() => handleCheckUser(user)}
+              disabled={payerId === null}
+            >
+              <ListItemIcon>
+                <Checkbox checked={selectedUserIds.includes(user.id)} />
+              </ListItemIcon>
+              <ListItemText primary={user.name} />
+            </ListItemButton>
+          ))}
       </List>
 
       <Button variant="contained" onClick={onSubmit}>
         Přidat záznam
       </Button>
-    </Stack>
+    </StyledStack>
   )
 }
+
+const StyledStack = styled(Stack)`
+  text-align: center;
+`
 
 const Error = styled(Typography)`
   color: red;
