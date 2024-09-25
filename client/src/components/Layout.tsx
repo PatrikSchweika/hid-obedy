@@ -3,6 +3,7 @@ import { AddLunch, AddLunchFormData } from './AddLunch.tsx'
 import {
   AppBar,
   Dialog,
+  Grid2 as Grid,
   Paper,
   styled,
   Toolbar,
@@ -50,44 +51,53 @@ export const Layout = () => {
           </Typography>
         </Toolbar>
       </AppBar>
-      <Container>
-        <Dialog
-          fullWidth
-          open={showDialog}
-          onClose={() => setShowDialog(false)}
-        >
-          {selectedUserId && (
-            <UserLunchRecords
-              users={users}
-              lunchRecords={lunchRecords}
-              userId={selectedUserId}
-            />
-          )}
-        </Dialog>
+      <StyledGrid container spacing={2}>
+        <StyledGridItem size={{ xs: 12, sm: 6 }}>
+          <StyledPaper sx={{ padding: 5 }}>
+            <AddLunch users={users} onAddLunch={handleAddLunch} />
+          </StyledPaper>
+        </StyledGridItem>
 
-        <StyledPaper>
-          <UserTable users={users} onUserClicked={handleUserClicked} />
-        </StyledPaper>
+        <StyledGridItem size={{ xs: 12, sm: 6 }}>
+          <StyledPaper>
+            <UserTable users={users} onUserClicked={handleUserClicked} />
+          </StyledPaper>
+        </StyledGridItem>
+      </StyledGrid>
 
-        <StyledPaper sx={{ padding: 5 }}>
-          <AddLunch users={users} onAddLunch={handleAddLunch} />
-        </StyledPaper>
-      </Container>
+      <Dialog fullWidth open={showDialog} onClose={() => setShowDialog(false)}>
+        {selectedUserId && (
+          <UserLunchRecords
+            users={users}
+            lunchRecords={lunchRecords}
+            userId={selectedUserId}
+          />
+        )}
+      </Dialog>
     </>
   )
 }
 
-const Container = styled('div')`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: 200px;
-  padding-top: 80px;
+const StyledGrid = styled(Grid)`
+  padding-top: 40px;
 `
 
+const StyledGridItem = styled(Grid)`
+  //display: flex;
+`
+
+// const Container = styled('div')`
+//   display: flex;
+//   flex-direction: row;
+//   align-items: center;
+//   justify-content: center;
+//   gap: 200px;
+//   padding-top: 80px;
+// `
+
 const StyledPaper = styled(Paper)`
-  min-width: 500px;
-  max-height: 90vh;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
   overflow: auto;
 `
