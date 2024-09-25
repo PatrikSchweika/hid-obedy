@@ -14,7 +14,7 @@ export const useAddLunchRecord = () => {
       const payer = await transaction.get(payerRef)
 
       if (!payer.exists()) {
-        return Promise.reject()
+        throw new Error('Payer does not exist')
       }
 
       const selectedUsers = await Promise.all(
@@ -22,7 +22,7 @@ export const useAddLunchRecord = () => {
       )
 
       if (selectedUsers.some((user) => !user.exists())) {
-        return Promise.reject()
+        throw new Error('Selected user does not exist')
       }
 
       transaction.update(payerRef, {

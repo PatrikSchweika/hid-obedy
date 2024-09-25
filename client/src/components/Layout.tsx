@@ -1,5 +1,5 @@
 import { UserTable } from './UserTable.tsx'
-import { AddLunch } from './AddLunch.tsx'
+import { AddLunch, AddLunchFormData } from './AddLunch.tsx'
 import {
   AppBar,
   Dialog,
@@ -13,15 +13,28 @@ import { useAddLunchRecord } from '../queries/use-add-lunch-record.ts'
 import { useCallback, useState } from 'react'
 import { UserLunchRecords } from './UserLunchRecords.tsx'
 import { useLunchRecords } from '../queries/use-lunch-records.ts'
+import { useSnackbar } from 'notistack'
 
 export const Layout = () => {
   const [showDialog, setShowDialog] = useState<boolean>(false)
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null)
+  const { enqueueSnackbar } = useSnackbar()
 
   const users = useUsers()
   const lunchRecords = useLunchRecords()
 
   const addLunchRecord = useAddLunchRecord()
+
+  const handleAddLunch = useCallback(
+    (data: AddLunchFormData) => {
+      addLunchRecord(data)
+        .then(() => enqueueSnackbar('Oběď přidán', { variant: 'success' }))
+        .catch(() =>
+          enqueueSnackbar('Nepodařilo se přidat oběd', { variant: 'error' }),
+        )
+    },
+    [addLunchRecord, enqueueSnackbar],
+  )
 
   const handleUserClicked = useCallback((userId: string) => {
     setShowDialog(true)
@@ -58,7 +71,7 @@ export const Layout = () => {
         </StyledPaper>
 
         <StyledPaper sx={{ padding: 5 }}>
-          <AddLunch users={users} onAddLunch={addLunchRecord} />
+          <AddLunch users={users} onAddLunch={handleAddLunch} />
         </StyledPaper>
       </Container>
     </>
