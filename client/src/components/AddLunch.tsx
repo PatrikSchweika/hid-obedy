@@ -176,7 +176,7 @@ export const AddLunch = ({ users, onAddLunch }: AddLunchProps) => {
       </List>
 
       <Button variant="contained" onClick={onSubmit} disabled={!isValid}>
-        Přidat záznam
+        Přidat
       </Button>
     </StyledStack>
   )
