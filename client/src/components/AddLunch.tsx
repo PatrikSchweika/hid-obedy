@@ -14,7 +14,7 @@ import {
 } from '@mui/material'
 import { DatePicker } from '@mui/x-date-pickers'
 import dayjs, { Dayjs } from 'dayjs'
-import { useCallback, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 
 interface AddLunchProps {
   users: User[]
@@ -60,6 +60,15 @@ export const AddLunch = ({ users, onAddLunch }: AddLunchProps) => {
     },
     [setPayerId, setSelectedUserIds, selectedUserIds],
   )
+
+  const isValid = useMemo(() => {
+    return (
+      payerId !== null &&
+      selectedUserIds.length > 0 &&
+      description.length > 0 &&
+      date !== null
+    )
+  }, [payerId, selectedUserIds, description, date])
 
   const onSubmit = useCallback(() => {
     if (
@@ -166,7 +175,7 @@ export const AddLunch = ({ users, onAddLunch }: AddLunchProps) => {
           ))}
       </List>
 
-      <Button variant="contained" onClick={onSubmit}>
+      <Button variant="contained" onClick={onSubmit} disabled={!isValid}>
         Přidat záznam
       </Button>
     </StyledStack>
