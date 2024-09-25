@@ -136,6 +136,7 @@ export const AddLunch = ({ users, onAddLunch }: AddLunchProps) => {
       )}
       <Autocomplete
         disablePortal
+        disabled={payerId === null}
         getOptionLabel={(option) => option.name}
         getOptionKey={(option) => option.id}
         options={users.filter(
@@ -144,7 +145,7 @@ export const AddLunch = ({ users, onAddLunch }: AddLunchProps) => {
         onChange={(_, value) =>
           value && setSelectedUserIds([...selectedUserIds, value.id])
         }
-        renderInput={(params) => <TextField {...params} label="Strávník" />}
+        renderInput={(params) => <TextField {...params} label="Přidej strávníka" />}
       />
       <List dense sx={{ maxHeight: 500, overflow: 'auto' }}>
         {users
