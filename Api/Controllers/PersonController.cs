@@ -1,17 +1,24 @@
-﻿using Api.Entities;
+﻿using Api.DTOs;
+using Api.Entities;
+using Api.Repositories;
+using Api.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
 
 [Controller]
 [Route("[controller]")]
-public class PersonController
+public class PersonController(IPersonService service)
 {
-
-    
-    [HttpGet]
-    public async Task<Person[]> Get()
+    [HttpPost]
+    public Person Post([FromBody] CreatePerson person)
     {
-        return [];
+        return service.Add(person);
+    }
+
+    [HttpGet]
+    public IEnumerable<Person> Get()
+    {
+        return service.FindAll();
     }
 }

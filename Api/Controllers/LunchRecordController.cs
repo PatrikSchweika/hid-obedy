@@ -1,21 +1,23 @@
-﻿using Api.Entities;
+﻿using Api.DTOs;
+using Api.Entities;
+using Api.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
 
 [Controller]
 [Route("[controller]")]
-public class LunchRecordController
+public class LunchRecordController(ILunchRecordService service)
 {
-    [HttpGet("{userId}")]
-    public async Task<LunchRecord[]> GetForUser(int userId)
+    [HttpGet("/user/{personId}")]
+    public IEnumerable<PersonLunchRecord> GetByPerson(int personId)
     {
-        return [];
+        return service.FindByPersonId(personId);
     }
 
     [HttpPost]
-    public async Task Post([FromBody] LunchRecord record)
+    public void Post([FromBody] CreateLunchRecord record)
     {
-        
+        service.Add(record);
     }
 }
